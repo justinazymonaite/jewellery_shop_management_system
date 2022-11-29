@@ -1,1 +1,1 @@
-# ptu5_final_project
+# jewellery_shop_management_system
