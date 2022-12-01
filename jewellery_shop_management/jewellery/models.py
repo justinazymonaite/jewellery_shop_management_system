@@ -94,12 +94,26 @@ class OrderLine(models.Model):
     price = models.DecimalField(_("price"), max_digits=18, decimal_places=2)
     order = models.ForeignKey(Order, verbose_name=_("order"), on_delete=models.CASCADE, related_name="order_lines")
     product = models.ForeignKey(Product, verbose_name=_("product"), on_delete=models.CASCADE, related_name="order_lines")
-    ring_size = models.DecimalField(_("ring size"), max_digits=4, decimal_places=2)
-    HAND_CHOICES = (('r', _("right")), ('l', _('left')))
-    hand = models.CharField(_('hand'), max_length=1, choices=HAND_CHOICES)
-    metal_type = models.ManyToManyField(MetalType, verbose_name=_("metal type(s)"))
+    HAND_CHOICES = (
+        ('r', _("right")), 
+        ('l', _('left'))
+    )
+    hand = models.CharField(_('hand'), max_length=1, choices=HAND_CHOICES, blank=True, null=True,)
+    FINGER_CHOICES = (
+        ('t', _("thumb")), 
+        ('i', _('index')), 
+        ('m', _('middle')), 
+        ('r', _('ring')), 
+        ('p', _('pinky')),
+    )
+    finger = models.CharField(_('finger'), max_length=1, choices=FINGER_CHOICES, blank=True, null=True,)
+    ring_size = models.CharField(_('ring_size'), max_length=20, blank=True, null=True,)
+    # measurement = 
+    metal_type = models.ManyToManyField(MetalType, verbose_name=_("metal type(s)"), blank=True, null=True)
     photo = models.ImageField(_("photo"), upload_to='product_photos', blank=True, null=True)
-    specification = HTMLField(_('specification'),  max_length=1000, blank=True, null=True, help_text=_("Enter preferred specifications for this product (for example personalized engraving text"))
+    specification = models.TextField(_("specification"), max_length=2000, blank=True, null=True, help_text=_("Enter preferred specifications for this product"))
+    engraving = HTMLField(_('engraving text'),  max_length=150, blank=True, null=True)
+    engraving_file = models.ImageField(_("engraving file"), upload_to='engraving_files', blank=True, null=True)
 
     @property
     def total(self):
