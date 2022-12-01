@@ -90,10 +90,10 @@ class Order(models.Model):
 
 class OrderLine(models.Model):
     unique_id = models.UUIDField(_('unique ID'), default=uuid.uuid4, editable=False)
-    quantity = models.IntegerField(_("quantity"), default=1)
-    price = models.DecimalField(_("price"), max_digits=18, decimal_places=2)
     order = models.ForeignKey(Order, verbose_name=_("order"), on_delete=models.CASCADE, related_name="order_lines")
     product = models.ForeignKey(Product, verbose_name=_("product"), on_delete=models.CASCADE, related_name="order_lines")
+    quantity = models.IntegerField(_("quantity"), default=1)
+    price = models.DecimalField(_("price"), max_digits=18, decimal_places=2)
     HAND_CHOICES = (
         ('r', _("right")), 
         ('l', _('left'))
@@ -108,8 +108,9 @@ class OrderLine(models.Model):
     )
     finger = models.CharField(_('finger'), max_length=1, choices=FINGER_CHOICES, blank=True, null=True,)
     ring_size = models.CharField(_('ring_size'), max_length=20, blank=True, null=True,)
-    # measurement = 
-    metal_type = models.ManyToManyField(MetalType, verbose_name=_("metal type(s)"), blank=True, null=True)
+    measurement = models.CharField(_('measurement'), max_length=200, blank=True, null=True,)
+    metal_type = models.ManyToManyField(MetalType, verbose_name=_("metal type(s)"))
+    weight = models.CharField(_('weight'), max_length=200, blank=True, null=True,)
     photo = models.ImageField(_("photo"), upload_to='product_photos', blank=True, null=True)
     specification = models.TextField(_("specification"), max_length=2000, blank=True, null=True, help_text=_("Enter preferred specifications for this product"))
     engraving = HTMLField(_('engraving text'),  max_length=150, blank=True, null=True)
@@ -124,12 +125,15 @@ class OrderLine(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.photo:
+        if self.photo or self.engraving_file:
             photo = Image.open(self.photo.path)
-            if photo.width > 500 or photo.height > 500:
+            engraving_file = Image.open(self.engraving_file.path)
+            if photo.width > 500 or photo.height > 500 or engraving_file.width > 500 or engraving_file.height > 500:
                 output_size = (500, 500)
                 photo.thumbnail(output_size)
                 photo.save(self.photo.path)
+                engraving_file.thumbnail(output_size)
+                engraving_file.save(self.engraving_file.path)
 
 
 class ReviewProduct(models.Model):
