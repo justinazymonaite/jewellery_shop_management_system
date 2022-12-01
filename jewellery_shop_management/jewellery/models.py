@@ -21,17 +21,18 @@ class MetalType(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(_("category name"), max_length = 80, help_text=_("Enter the name of jewellery category"))
+    name = models.CharField(_("category"), max_length = 80, help_text=_("Enter the name of jewellery category"))
 
     def __str__(self) -> str:
         return self.name
 
     class Meta:
         ordering = ['name']
-
+        verbose_name = _('category')
+        verbose_name_plural = _('categories')
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, verbose_name=_("category"), on_delete=models.CASCADE, related_name="product")
+    category = models.ManyToManyField(Category, verbose_name=_("category(-ies)"), help_text=_("Choose category(-ies) for this product"))
     name = models.CharField(_("product name"), max_length = 100)
     price = models.DecimalField(_("product price"), max_digits=18, decimal_places=2)
     image = models.ImageField(_("product image"), upload_to='product_images', blank=True, null=True)
@@ -45,11 +46,20 @@ class Product(models.Model):
                 image.thumbnail(output_size)
                 image.save(self.image.path)
 
+    def display_category(self) -> str:
+        return ', '.join(category.name for category in self.category.all())
+    display_category.short_description = _('category(-ies)')
+
+    def __str__(self) -> str:
+        return f"{self.name} {self.price}"
+
 
 class Customer(models.Model):
     phone = models.CharField(_("phone"), max_length=20)
-    user = models.OneToOneField("user", verbose_name=_("user"), on_delete=models.CASCADE, related_name="customer")
+    user = models.OneToOneField(get_user_model(), verbose_name=_("user"), on_delete=models.CASCADE, related_name="customer")
 
+    def __str__(self) -> str:
+        return self.user
 
 class Order(models.Model):
     STATUS_CHOICES = (
@@ -85,7 +95,7 @@ class Order(models.Model):
         ordering = ['due_date']
 
     def __str__(self) -> str:
-        return f"{self.due_date} - {self.customer}: {self.total}"
+        return f"{self.customer} - {self.due_date} - {self.total}"
 
 
 class OrderLine(models.Model):
@@ -135,11 +145,15 @@ class OrderLine(models.Model):
                 engraving_file.thumbnail(output_size)
                 engraving_file.save(self.engraving_file.path)
 
+    def display_metal_type(self) -> str:
+        return ', '.join(metal_type.metal_type for metal_type in self.metal_type.all())
+    display_metal_type.short_description = _("metal type(s)")
+
 
 class ReviewProduct(models.Model):
     customer = models.ForeignKey(get_user_model(), verbose_name=_('customer'), on_delete=models.CASCADE, related_name='product_reviews')
     product = models.ForeignKey(Product, verbose_name=_("product"), on_delete=models.CASCADE, related_name='reviews')
-    review = models.TextField(_("review content"), max_length=2000)
+    review = models.TextField(_("content"), max_length=2000)
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
 
     class Meta:
