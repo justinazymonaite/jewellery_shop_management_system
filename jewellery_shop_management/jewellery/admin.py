@@ -5,6 +5,7 @@ from . import models
 class OrderLineInline(admin.TabularInline):
     model = models.OrderLine
     extra = 0
+    readonly_fields = ('unique_id', )
     can_delete = False
 
 
@@ -20,19 +21,32 @@ class OrderLineAdmin(admin.ModelAdmin):
     )
 
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'total', 'status', 'status', 'due_date')
+    list_filter = ('status', 'due_date')
+    readonly_fields = ('is_overdue', )
+    inlines = (OrderLineInline, )
+    list_editable = ('status', 'due_date')
+
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'display_category', 'price')
 
+
+class PearlAdmin(admin.ModelAdmin):
+    list_display = ('parcel', 'shape', 'color', 'size', 'type_name',)
+    list_filter = ('shape', 'color')
 
 
 class ReviewProductAdmin(admin.ModelAdmin):
     list_display = ('product', 'customer', 'created_at')
 
 
+admin.site.register(models.Pearl)
 admin.site.register(models.MetalType)
 admin.site.register(models.Category)
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Customer)
-admin.site.register(models.Order)
+admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderLine, OrderLineAdmin)
 admin.site.register(models.ReviewProduct, ReviewProductAdmin)

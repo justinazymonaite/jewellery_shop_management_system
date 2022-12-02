@@ -1,0 +1,266 @@
+body {
+    background-color: slategray;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+header {
+    background-color: rgb(59, 59, 66);
+}
+
+header .container {
+    display: flex;
+    flex-direction: row;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+header .container span {
+    align-self: center;
+    color: rgb(0, 0, 0);
+    padding: 0.5rem;
+}
+
+header, main, footer {
+    min-width: fit-content;
+}
+
+header a {
+    display: inline-block;
+    color:azure;
+    padding: 0.5rem;
+    text-decoration: none;
+}
+
+header a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.2);
+    max-width: 1200px;
+    min-width: 480px;
+    margin: 0 auto;
+}
+
+h1, h2, h3, p {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+}
+
+h1, h2, h3 {
+    background-color: azure;
+    border-bottom: 3px solid rgb(43, 41, 46);
+}
+
+main {
+    flex-grow: 2;
+}
+
+footer {
+    background-color: rgb(47, 47, 61);
+}
+
+footer .container {
+    display: flex;
+    align-content: stretch;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 0.25rem 1rem;
+}
+
+ul li a {
+    color:rgb(43, 41, 46)
+}
+
+ul li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.category_filter {
+    float: right;
+    background-color:  rgba(255, 255, 255, 0.2);
+    background-color: rgb(171, 177, 200);
+}
+
+.category_filter .current {
+    background-color: rgb(91, 96, 116);
+}
+
+.paginator {
+    margin: 1rem;
+}
+
+.paginator a, .paginator span {
+    display: inline-block;
+    padding: 0.25rem;
+    margin: 0.05rem;
+    text-decoration: none;
+    border: 1px solid rgb(47, 47, 61);
+    border-radius: 0.5rem;
+}
+
+.paginator span {
+    background-color:  rgb(47, 47, 61);
+    color: white;
+}
+
+.paginator a {
+    background-color:   white;
+}
+
+.paginator form {
+    display: inline-block;
+}
+
+ul.book_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+ul li.book {
+    flex-basis: 10rem;
+    border: 1px solid rgb(47, 47, 61);
+    background-color:  rgba(255, 255, 255, 0.2);
+    padding: 0;
+}
+
+ img {
+    max-width: 100%;
+}
+
+ul.book_list li.book h3 {
+    margin-top: 0;
+}
+
+table {
+    margin: 0.5rem 1rem;
+}
+
+.form_error { 
+    color: rgb(184, 35, 35);
+}
+
+.table_grid {
+    display: grid;
+    padding: 0.5rem;
+}
+
+.form_grid {
+    grid-template-columns: 6rem auto;
+}
+
+.form_grid div {
+    display: inline-block;
+    align-self: stretch;
+    justify-self: stretch;
+    padding: 0.5rem;
+}
+
+.form_grid input [type="text"], .form_grid input [type="email"], .form_grid input [type="password"] {
+    width: 50%;
+}
+
+.my_books_table {
+    grid-template-columns: 5fr 1fr 1fr 1fr;
+}
+
+.table_grid_cell {
+    display: inline-block;
+    align-self: stretch;
+    justify-self: stretch;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem;
+    border-bottom: 1px solid rgb(47, 47, 61);
+}
+
+.center {
+    text-align: center;
+}
+
+.dark {
+    background-color: rgb(59, 59, 66);
+    color: white;
+}
+
+.overdue {
+    color: rgb(184, 35, 35);
+    font-weight: bold;
+}
+
+.alert {
+    padding: 0.5rem 1rem;
+}
+
+.alert-error {
+    color: rgb(184, 35, 35);
+}
+
+.alert-success {
+    color: rgb(28, 149, 56);
+}
+
+.float_right {
+    float: right
+}
+
+.book_review {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin: 0;
+}
+
+.review_form label {
+    display: none;
+}
+
+.review_form {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 3px solid rgb(47, 47, 61);
+}
+
+.user-profile-photo {
+    max-width: 20rem;
+    border-radius: 5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.3rem;
+}
+
+.flex-profile {
+    display: flex;
+    place-items: stretch stretch;
+}
+
+.button {
+    background-color: rgb(139, 139, 139);
+    color:rgb(47, 47, 61) ;
+    border-bottom: 1px solid rgb(47, 47, 61);
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    text-decoration: none;
+}
+
+.button:hover{
+    background-color: rgb(255, 255, 255);
+}
+
+.book_review h4 img {
+    max-height: 1.5rem;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    float: left;
+}

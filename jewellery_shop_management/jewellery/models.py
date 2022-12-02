@@ -5,19 +5,35 @@ from django.utils.timezone import datetime, timedelta
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from tinymce.models import HTMLField
+from django.urls import reverse
+from django.utils.html import format_html
 
 
 User = get_user_model()
 
 
-class MetalType(models.Model):
-    metal_type = models.CharField(_("metal type"),max_length = 30)
+class Pearl(models.Model):
+    parcel = models.CharField(_("parcel"), max_length = 30)
+    shape = models.CharField(_("shape"), max_length = 30)
+    color = models.CharField(_("color"), max_length = 30)
+    size = models.CharField(_("size"), max_length = 30)
+    type_name = models.CharField(_("type name"), max_length = 30)
 
     def __str__(self) -> str:
-        return self.metal_type
+        return f"{self.color} {self.type_name} {self.size}"
 
     class Meta:
-        ordering = ['metal_type']
+        ordering = ['shape']
+
+
+class MetalType(models.Model):
+    alloy = models.CharField(_("alloy"), max_length = 30, blank=True)
+
+    def __str__(self) -> str:
+        return self.alloy
+
+    class Meta:
+        ordering = ['alloy']
 
 
 class Category(models.Model):
@@ -30,6 +46,10 @@ class Category(models.Model):
         ordering = ['name']
         verbose_name = _('category')
         verbose_name_plural = _('categories')
+
+    def link_filtered_products(self):
+        link = reverse('products')+'?category_id='+str(self.id)
+        return format_html('<a class="category" href="{link}">{name}</a>', link=link, name=self.name)
 
 class Product(models.Model):
     category = models.ManyToManyField(Category, verbose_name=_("category(-ies)"), help_text=_("Choose category(-ies) for this product"))
@@ -120,7 +140,8 @@ class OrderLine(models.Model):
     ring_size = models.CharField(_('ring_size'), max_length=20, blank=True, null=True,)
     measurement = models.CharField(_('measurement'), max_length=200, blank=True, null=True,)
     metal_type = models.ManyToManyField(MetalType, verbose_name=_("metal type(s)"))
-    weight = models.CharField(_('weight'), max_length=200, blank=True, null=True,)
+    pearl = models.ManyToManyField(Pearl, verbose_name=_("pearl(s)"))
+    weight = models.CharField(_('weight'), max_length=200, blank=True, null=True)
     photo = models.ImageField(_("photo"), upload_to='product_photos', blank=True, null=True)
     specification = models.TextField(_("specification"), max_length=2000, blank=True, null=True, help_text=_("Enter preferred specifications for this product"))
     engraving = HTMLField(_('engraving text'),  max_length=150, blank=True, null=True)
@@ -146,7 +167,7 @@ class OrderLine(models.Model):
                 engraving_file.save(self.engraving_file.path)
 
     def display_metal_type(self) -> str:
-        return ', '.join(metal_type.metal_type for metal_type in self.metal_type.all())
+        return ', '.join(metal_type.alloy for metal_type in self.metal_type.all())
     display_metal_type.short_description = _("metal type(s)")
 
 
