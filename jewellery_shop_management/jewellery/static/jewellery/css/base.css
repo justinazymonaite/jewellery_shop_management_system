@@ -1,5 +1,4 @@
 body {
-    background-color: slategray;
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
@@ -9,12 +8,52 @@ body {
 }
 
 header {
-    background-color: rgb(59, 59, 66);
+    background-color: rgb(47, 47, 61);
 }
 
-header .container {
+header a {
+    color: rgb(235, 235, 235);
+    display: block;
+    height: 64px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+header a:hover {
+    background-color:  rgba(47, 47, 61, 0,3);
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+}
+
+header li {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+header li:hover .submenu > li {
+    display: block;
+    top: 0px;
+}
+
+header .submenu li {
+    display: none;
+    position: absolute;
+    top: 0px;
+}
+
+header .submenu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
 }
 
 .spacer {
@@ -31,32 +70,20 @@ header, main, footer {
     min-width: fit-content;
 }
 
-header a {
-    display: inline-block;
-    color:azure;
-    padding: 0.5rem;
-    text-decoration: none;
-}
-
-header a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
 .container {
-    background-color: rgba(255, 255, 255, 0.2);
     max-width: 1200px;
     min-width: 480px;
     margin: 0 auto;
 }
 
+h1, h2, h3 {
+    text-align: center;
+    text-decoration: none;
+}
+
 h1, h2, h3, p {
     padding: 0.5rem 1rem;
     margin: 0.5rem 0;
-}
-
-h1, h2, h3 {
-    background-color: azure;
-    border-bottom: 3px solid rgb(43, 41, 46);
 }
 
 main {
@@ -65,6 +92,7 @@ main {
 
 footer {
     background-color: rgb(47, 47, 61);
+    color: rgb(235, 235, 235);
 }
 
 footer .container {
@@ -81,22 +109,12 @@ ul li {
     padding: 0.25rem 1rem;
 }
 
-ul li a {
+.body ul li a {
     color:rgb(43, 41, 46)
 }
 
 ul li:hover {
     background-color: rgba(255, 255, 255, 0.2);
-}
-
-.category_filter {
-    float: right;
-    background-color:  rgba(255, 255, 255, 0.2);
-    background-color: rgb(171, 177, 200);
-}
-
-.category_filter .current {
-    background-color: rgb(91, 96, 116);
 }
 
 .paginator {
@@ -125,25 +143,24 @@ ul li:hover {
     display: inline-block;
 }
 
-ul.book_list {
+ul.product_list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
 }
 
-ul li.book {
-    flex-basis: 10rem;
-    border: 1px solid rgb(47, 47, 61);
+ul li.product {
+    flex-basis: 20rem;
     background-color:  rgba(255, 255, 255, 0.2);
     padding: 0;
 }
 
- img {
+img {
     max-width: 100%;
 }
 
-ul.book_list li.book h3 {
+ul.product_list li.product h3 {
     margin-top: 0;
 }
 
@@ -175,7 +192,7 @@ table {
     width: 50%;
 }
 
-.my_books_table {
+.my_orders_table {
     grid-template-columns: 5fr 1fr 1fr 1fr;
 }
 
@@ -258,7 +275,7 @@ table {
     background-color: rgb(255, 255, 255);
 }
 
-.book_review h4 img {
+.product_review h4 img {
     max-height: 1.5rem;
     border-radius: 0.5rem;
     margin-right: 0.5rem;

@@ -1,0 +1,20 @@
+{% extends 'jewellery/base.html' %}
+{% load static i18n %}
+{% block title %}{% trans "Jewellery in" %} {{ block.super }}{% endblock title %}
+{% block content %}
+    <h1>{{ products_count}} {{ category }}</h1>
+    <ul class="product_list">
+        {% for product in product_list %}
+            <li class="product">
+                <a href="{% url 'product' product.pk %}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}">
+                    {% else %}
+                        <img src="{% static 'jewellery/img/ring_icon.jpg' %}">
+                    {% endif %}
+                    <h3>{{ product.name }}</h3>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

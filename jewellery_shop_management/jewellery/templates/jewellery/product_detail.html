@@ -1,0 +1,34 @@
+{% extends 'jewellery/base.html' %}
+{% load static i18n %}
+{% block title %}{{ object }}{% endblock title %}
+{% block content %}
+    <h1>{{ object.name }}</h1>
+    <h3>{{ object.price }}</h3>
+        {% if object.image.url %}
+            <img src="{{ object.image.url }}">
+        {% else %}
+             <img src="{% static 'jewellery/img/ring_icon.jpg' %}">
+        {% endif %}
+    <h2>{% trans "Reviews" %}</h2>
+    {% if user.is_authenticated %}
+        <div class='review_form'>
+            <p>{% trans "If you have bought this piece of jewellery, please leave a review." %}</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p><button type="submit">{% trans "Post review" %}</button></p>
+            </form>
+        </div>
+    {% endif %}
+    {% if product.reviews %}
+        {% for review in product.reviews.all %}
+            <div class='product_review'>
+                <h4>{% if review.customer.profile.photo %}
+                        <img src="{{ review.customer.profile.photo.url }}">
+                    {% endif %}
+                    {{ review.customer }}<span class='float_right'>{{ review.created_at }}</span></h4>
+                <p>{{ review.content }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
