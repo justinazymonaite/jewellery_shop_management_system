@@ -76,7 +76,7 @@ header, main, footer {
     margin: 0 auto;
 }
 
-h1, h2, h3 {
+h1, h3 {
     text-align: center;
     text-decoration: none;
 }
@@ -84,6 +84,7 @@ h1, h2, h3 {
 h1, h2, h3, p {
     padding: 0.5rem 1rem;
     margin: 0.5rem 0;
+    color: rgb(35, 34, 38);
 }
 
 main {
@@ -235,7 +236,7 @@ table {
     float: right
 }
 
-.book_review {
+.product_review {
     display: block;
     padding: 0.5rem 1rem;
     margin: 0;
