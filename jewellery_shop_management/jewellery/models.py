@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from tinymce.models import HTMLField
 from django.urls import reverse
 from django.utils.html import format_html
+from datetime import date
 
 
 User = get_user_model()
@@ -81,6 +82,11 @@ class Customer(models.Model):
     def __str__(self) -> str:
         return self.user
 
+
+def get_due_date():
+        return date.today() + timedelta(days=30)
+
+
 class Order(models.Model):
     STATUS_CHOICES = (
         ('n', _('new - not approved')),
@@ -96,14 +102,7 @@ class Order(models.Model):
     date = models.DateField(_("order date"), auto_now_add=True)
     total = models.DecimalField(_("total amount"), max_digits=18, decimal_places=2, default=0)
     customer = models.ForeignKey(Customer, verbose_name=_("customer"), on_delete=models.CASCADE)
-    due_date = models.DateField(_('due date'))
-
-    def get_due_date(self):
-        return self.date + timedelta(days=30)
-
-    def save(self, *args, **kwargs):
-        self.due_date = self.get_due_date()
-        super().save(*args, **kwargs)
+    due_date = models.DateField(_('due date'), default=get_due_date)
 
     @property
     def is_overdue(self):

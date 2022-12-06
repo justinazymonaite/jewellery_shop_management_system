@@ -9,6 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 from . forms import ProductReviewForm
 from django.contrib import messages
+from django.views.generic.base import ContextMixin
 
 def index(request):
     return render(request, 'jewellery/index.html')
@@ -17,7 +18,15 @@ def categories(request):
     return render(request, 'jewellery/categories.html', {'categories': Category.objects.all()})
 
 
-class ProductListView(ListView):
+class CategoriesMixin(ContextMixin):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        return context
+    
+
+class ProductListView(ListView, CategoriesMixin):
     model = Product
     template_name = 'jewellery/product_list.html'
 
@@ -34,13 +43,12 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category_id = self.request.GET.get('category_id')
-        context['categories'] = Category.objects.all()
         if category_id:
             context['category'] = get_object_or_404(Category, id=category_id)
         return context
 
 
-class ProductDetailView(FormMixin, DetailView):
+class ProductDetailView(FormMixin, DetailView, CategoriesMixin):
     model = Product
     template_name = 'jewellery/product_detail.html'
     form_class = ProductReviewForm
@@ -71,7 +79,7 @@ class ProductDetailView(FormMixin, DetailView):
         return super().form_valid(form)
 
 
-class OrderListView(LoginRequiredMixin, ListView):
+class OrderListView(LoginRequiredMixin, ListView, CategoriesMixin):
     model = Order
     template_name = 'jewellery/order_list.html'
 
@@ -89,7 +97,7 @@ class OrderListView(LoginRequiredMixin, ListView):
         return context
 
     
-class OrderDetailView(FormMixin, DetailView):
+class OrderDetailView(FormMixin, DetailView, CategoriesMixin):
     model = Order
     template_name = 'jewellery/order_detail.html'
 
@@ -97,7 +105,7 @@ class OrderDetailView(FormMixin, DetailView):
         return reverse('order', kwargs={'pk': self.get_object().id})
 
 
-class UserOrderListView(LoginRequiredMixin, ListView):
+class UserOrderListView(LoginRequiredMixin, ListView, CategoriesMixin):
     model = Order
     template_name = 'jewellery/user_order_list.html'
 

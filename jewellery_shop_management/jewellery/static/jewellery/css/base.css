@@ -1,5 +1,7 @@
 body {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
@@ -21,6 +23,7 @@ header a {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    transition: background 0.4s;
 }
 
 header a:hover {

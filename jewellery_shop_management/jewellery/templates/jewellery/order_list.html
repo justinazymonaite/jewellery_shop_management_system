@@ -1,0 +1,11 @@
+{% extends 'jewellery/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Orders in" %} {{ block.super }}{% endblock title %}
+{% block content %}
+    <h1>{{ orders_count }} {% trans "Orders" %}</h1>
+    <ul>
+    {% for order_object in order_list %}
+        <li><a href="{% url 'order' order_object.pk %}">{{ order_object }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
