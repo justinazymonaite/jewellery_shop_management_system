@@ -1,0 +1,7 @@
+{% extends 'jewellery/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Logged out from" %} {{ block.super }}{% endblock title %}
+{% block content %}
+    <h1>{% trans "Logged out" %}</h1>
+    <p>{% trans "Session closed successfully." %} <a href="{% url 'login' %}">{% trans "Log in again" %}</a>.</p>
+{% endblock content %}

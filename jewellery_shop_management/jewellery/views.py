@@ -11,13 +11,7 @@ from . forms import ProductReviewForm
 from django.contrib import messages
 
 def index(request):
-    visits_count = request.session.get('visits_count', 1)
-    request.session['visits_count'] = visits_count+1
-    context = {
-        'products_count': Product.objects.count(),
-        'visits_count': visits_count,
-    }
-    return render(request, 'jewellery/index.html', context=context)
+    return render(request, 'jewellery/index.html')
 
 def categories(request):
     return render(request, 'jewellery/categories.html', {'categories': Category.objects.all()})
@@ -25,7 +19,6 @@ def categories(request):
 
 class ProductListView(ListView):
     model = Product
-    paginate_by = 5
     template_name = 'jewellery/product_list.html'
 
     def get_queryset(self):
@@ -40,7 +33,6 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products_count'] = self.get_queryset().count()
         category_id = self.request.GET.get('category_id')
         context['categories'] = Category.objects.all()
         if category_id:

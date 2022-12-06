@@ -56,14 +56,18 @@ header .submenu {
     width: 100%;
 }
 
+.arrow {
+    margin-left: 8px;
+    font-size: 12px;
+}
+
 .spacer {
     flex-grow: 1;
 }
 
 header .container span {
     align-self: center;
-    color: rgb(0, 0, 0);
-    padding: 0.5rem;
+    color: rgb(235, 235, 235);
 }
 
 header, main, footer {
@@ -93,6 +97,10 @@ main {
 
 footer {
     background-color: rgb(47, 47, 61);
+    font-size: 13px;
+}
+
+footer p {
     color: rgb(235, 235, 235);
 }
 
@@ -152,9 +160,8 @@ ul.product_list {
 }
 
 ul li.product {
-    flex-basis: 20rem;
-    background-color:  rgba(255, 255, 255, 0.2);
-    padding: 0;
+    flex-basis: 19rem;
+    padding: 35px;
 }
 
 img {

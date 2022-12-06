@@ -2,7 +2,7 @@
 {% load static i18n %}
 {% block title %}{% trans "Jewellery in" %} {{ block.super }}{% endblock title %}
 {% block content %}
-    <h1>{{ products_count}} {{ category }}</h1>
+    <h1>{{ category }}</h1>
     <ul class="product_list">
         {% for product in product_list %}
             <li class="product">
