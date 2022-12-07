@@ -1,0 +1,15 @@
+{% extends 'jewellery/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Order" %} {{ object }} {% trans "in" %} {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>{% trans "Order #" %}{{ object.id }}</h1>
+<p>{% trans "Date:" %} {{ object.date }}</p>
+<p>{% trans "Status:" %} {{ object.get_status_display }}, {% trans "estimated:" %} {{ object.due_date }}</p>
+<p>{% trans "Product:" %} {{ object.product }}</p>
+<p>{% trans "Total price:" %} {{ object.total }} €</p>
+<ul>
+    {% for line in object.order_lines.all %}
+        <li>{{ line }}</li>
+    {% endfor %}
+</ul>
+{% endblock content %}

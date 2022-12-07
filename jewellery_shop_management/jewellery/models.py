@@ -4,7 +4,6 @@ from PIL import Image
 from django.utils.timezone import datetime, timedelta
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from tinymce.models import HTMLField
 from django.urls import reverse
 from django.utils.html import format_html
 from datetime import date
@@ -80,7 +79,7 @@ class Customer(models.Model):
     user = models.OneToOneField(get_user_model(), verbose_name=_("user"), on_delete=models.CASCADE, related_name="customer")
 
     def __str__(self) -> str:
-        return self.user
+        return f"{self.user}"
 
 
 def get_due_date():
@@ -113,6 +112,12 @@ class Order(models.Model):
     class Meta:
         ordering = ['due_date']
 
+    def get_total(self):
+        total = 0
+        for line in self.order_lines.all():
+            total += line.total
+        return total
+    
     def __str__(self) -> str:
         return f"{self.customer} - {self.due_date} - {self.total}"
 
@@ -139,12 +144,12 @@ class OrderLine(models.Model):
     ring_size = models.CharField(_('ring_size'), max_length=20, blank=True, null=True,)
     measurement = models.CharField(_('measurement'), max_length=200, blank=True, null=True,)
     metal_type = models.ManyToManyField(MetalType, verbose_name=_("metal type(s)"))
-    pearl = models.ManyToManyField(Pearl, verbose_name=_("pearl(s)"))
+    pearl = models.ManyToManyField(Pearl, verbose_name=_("pearl(s)"), blank=True,)
     weight = models.CharField(_('weight'), max_length=200, blank=True, null=True)
     photo = models.ImageField(_("photo"), upload_to='product_photos', blank=True, null=True)
     specification = models.TextField(_("specification"), max_length=2000, blank=True, null=True, help_text=_("Enter preferred specifications for this product"))
-    engraving = HTMLField(_('engraving text'),  max_length=150, blank=True, null=True)
-    engraving_file = models.ImageField(_("engraving file"), upload_to='engraving_files', blank=True, null=True)
+    engraving = models.TextField(_('engraving text'),  max_length=150, blank=True, null=True)
+    engraving_file = models.FileField(_("engraving file"), upload_to='engraving_files', blank=True, null=True)
 
     @property
     def total(self):
@@ -157,14 +162,13 @@ class OrderLine(models.Model):
         super().save(*args, **kwargs)
         if self.photo or self.engraving_file:
             photo = Image.open(self.photo.path)
-            engraving_file = Image.open(self.engraving_file.path)
-            if photo.width > 500 or photo.height > 500 or engraving_file.width > 500 or engraving_file.height > 500:
+            if photo.width > 500 or photo.height > 500:
                 output_size = (500, 500)
                 photo.thumbnail(output_size)
                 photo.save(self.photo.path)
-                engraving_file.thumbnail(output_size)
-                engraving_file.save(self.engraving_file.path)
-
+        self.order.total = self.order.get_total()
+        self.order.save()
+            
     def display_metal_type(self) -> str:
         return ', '.join(metal_type.alloy for metal_type in self.metal_type.all())
     display_metal_type.short_description = _("metal type(s)")

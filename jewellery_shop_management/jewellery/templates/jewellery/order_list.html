@@ -1,11 +1,28 @@
 {% extends 'jewellery/base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Orders in" %} {{ block.super }}{% endblock title %}
+{% block title %} {% trans "My Orders in" %} {{ block.super }}{% endblock title %}
 {% block content %}
-    <h1>{{ orders_count }} {% trans "Orders" %}</h1>
-    <ul>
-    {% for order_object in order_list %}
-        <li><a href="{% url 'order' order_object.pk %}">{{ order_object }}</a></li>
-    {% endfor %}
-    </ul>
+    <h1>{% trans "My Orders" %}
+        {% if user.profile.photo %}
+            <img src="{{ user.profile.photo.url }}">
+        {% endif %}
+    </h1>
+    <div class="table_grid my_orders_table">
+        <div class="table_grid_cell center dark">{% trans "Order date" %}</div>
+        <div class="table_grid_cell center dark">{% trans "Total amount" %}</div>
+        <div class="table_grid_cell center dark">{% trans "Due Date" %}</div>
+        <div class="table_grid_cell center dark">{% trans "Actions" %}</div>
+        {% for order in order_list %}
+            <div class="table_grid_cell center">{{ order.date }}</div>
+            <div class="table_grid_cell center{% if order.total %} overdue{% endif %}">{{ order.due_back }}</div>
+            <div class="table_grid_cell center">{{ order.is_overdue }}</div>
+            <div class="table_grid_cell center">
+                {% if order.status == "n" %}
+                <a class="button" href="{% url 'user_update_order' order.pk%}">{% trans "Update" %}</a>
+                <a class="button" href="{% url 'user_delete_order' order.pk%}">{% trans "Cancel" %}</a>
+                {% endif %}
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock content %}

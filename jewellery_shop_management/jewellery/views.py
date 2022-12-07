@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
 from . models import Product, Category, Order
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -12,10 +11,7 @@ from django.contrib import messages
 from django.views.generic.base import ContextMixin
 
 def index(request):
-    return render(request, 'jewellery/index.html')
-
-def categories(request):
-    return render(request, 'jewellery/categories.html', {'categories': Category.objects.all()})
+    return render(request, 'jewellery/index.html', {"categories": Category.objects.all()})
 
 
 class CategoriesMixin(ContextMixin):
@@ -29,6 +25,7 @@ class CategoriesMixin(ContextMixin):
 class ProductListView(ListView, CategoriesMixin):
     model = Product
     template_name = 'jewellery/product_list.html'
+    paginate_by = 21
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -86,15 +83,10 @@ class OrderListView(LoginRequiredMixin, ListView, CategoriesMixin):
     def get_queryset(self):
         queryset = super().get_queryset()
         if hasattr(self.request.user, 'customer'):
-            queryset = queryset.filter(customer=self.request.user.customer).order_by('date')
+            queryset = queryset.filter(customer__user=self.request.user.customer).order_by('date')
         else:
             queryset = None
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['orders_count'] = self.get_queryset().count()
-        return context
 
     
 class OrderDetailView(FormMixin, DetailView, CategoriesMixin):
@@ -104,12 +96,3 @@ class OrderDetailView(FormMixin, DetailView, CategoriesMixin):
     def get_success_url(self):
         return reverse('order', kwargs={'pk': self.get_object().id})
 
-
-class UserOrderListView(LoginRequiredMixin, ListView, CategoriesMixin):
-    model = Order
-    template_name = 'jewellery/user_order_list.html'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(customer=self.request.user).order_by('due_date')
-        return queryset

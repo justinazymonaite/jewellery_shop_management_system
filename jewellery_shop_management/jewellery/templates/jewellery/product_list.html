@@ -3,6 +3,12 @@
 {% block title %}{% trans "Jewellery in" %} {{ block.super }}{% endblock title %}
 {% block content %}
     <h1>{{ category }}</h1>
+    <div class='search'>
+        <form action="{% url 'products' %}" method="get">
+            <input type="text" name="search" value="{{ request.GET.search }}">
+            <button type="submit">{% trans "search" %}</button>
+        </form>
+    </div>
     <ul class="product_list">
         {% for product in product_list %}
             <li class="product">
@@ -17,4 +23,16 @@
             </li>
         {% endfor %}
     </ul>
+    <div></div>
+        <div class='paginator'>
+            {% if page_obj.has_previous %}
+                <a href="?{%if request.GET.search %}search={{ request.GET.search }}&{% endif %}page=1">{% trans "First" %}</a>
+                <a href="?{%if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.previous_page_number }}">&#129120</a>
+            {% endif %}
+            {{ page_obj.number}} / {{ page_obj.paginator.num_pages }}
+            {% if page_obj.has_next %}
+                <a href="?{%if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.next_page_number }}">&#129122</a>
+                <a href="?{%if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.paginator.num_pages }}">{% trans "Last" %}</a>
+            {% endif %}
+        </div>
 {% endblock content %}

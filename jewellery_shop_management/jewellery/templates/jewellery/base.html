@@ -19,24 +19,28 @@
                         <a href="{% url 'index' %}">{% trans "Home" %}</a>
                     </li>
                     <li>
-                        <a href="{% url 'categories' %}">{% trans "Jewellery" %}<span class="arrow">&#x25BC;</span></a>
-                        <ul class="submenu">
-                            {% for filter_category in categories %}
-                                <li>{{ filter_category.link_filtered_products }}</li>
-                            {% endfor %}
-                        </ul>
+                        <a href="{% url 'products' %}">{% trans "All Jewellery" %}</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% trans "Categories" %}<span class="arrow">&#x25BC;</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li>{% for filter_category in categories %}
+                                <li>{{ filter_category.link_filtered_products }}</li>
+                            {% endfor %}</li>
+                        </ul>
+                      </li>
                     <li>
                         <span class="spacer"></span>
                     </li>
                 {% if user.is_authenticated %}
                     <li>
-                        <span>{{user}}</span>
-                    </li>
-                    <li>
                         <a href="{% url 'profile' %}">{{ user }}</a>
                     </li>
-                    {% comment %} <a href="{% url 'user_orders' %}">{% trans "My Orders" %}</a> {% endcomment %}
+                    <li>
+                        <a href="{% url 'user_orders' %}">{% trans "My Orders" %}</a>
+                    </li>
                     {% if user.is_superuser or user.is_staff %}
                         <li>
                             <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
@@ -53,19 +57,15 @@
                         <a href="{% url 'login' %}{% if not '/accounts/' in request.path %}?next={{ request.path }}{% endif %}">{% trans "Login" %}</a>
                     </li>
                 {% endif %}
-                    <li>
                         <span>
                             <form action="{% url 'set_language' %}" method="post">
                             {% csrf_token %}
                                 <input name="next" type="hidden" value="{{ request.path }}">
-                                <select name="language" onchange="this.form.submit()">
-                                    {% for lang in LANGUAGES %}
-                                        <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %} selected{% endif %}>{{ lang.1 }}</option>
-                                    {% endfor %}
-                                </select>
+                                {% for lang in LANGUAGES %}
+                                    <button type="submit" name="language" value="{{ lang.0 }}" >{{ lang.0|upper|slice:2 }}</button>
+                                {% endfor %}
                             </form>
                         </span>
-                    </li>
                 </ul>
             {% endblock nav %}
         </div>
