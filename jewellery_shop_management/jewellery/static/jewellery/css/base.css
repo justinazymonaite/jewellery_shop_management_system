@@ -22,30 +22,30 @@ header a {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition: background 0.4s;
     text-transform: uppercase;
     font-size: 14px;
 }
 
+.dropdown {
+    position: relative;
+}
+
 .dropdown-menu {
+    display: none;
     position: absolute;
     background-color: rgb(47, 47, 61);
-    display: flex;
-    flex-direction: column;
     font-size: 12px;
-    display: block;
-    transition: background 0.4s;
+    flex-direction: column;
     
 }
 
-.dropdown-menu:hover {
-    display: none;
-    transition-duration: 0.3s;
-    transition-timing-function: linear;
+.dropdown:hover .dropdown-menu {
+    display: flex;
+    flex-direction: column;
 }
 
 header a:hover {
-    background-color:  rgba(47, 47, 61, 0,3);
+    background-color:  rgb(93, 93, 103);
 }
 
 header ul {
@@ -215,7 +215,7 @@ table {
 }
 
 .my_orders_table {
-    grid-template-columns: 5fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
 }
 
 .table_grid_cell {

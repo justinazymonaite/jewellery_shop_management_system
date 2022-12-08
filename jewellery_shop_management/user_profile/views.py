@@ -6,6 +6,7 @@ from django.core.validators import validate_email
 from django.contrib.auth.decorators import login_required
 from . forms import UserUpdateForm, ProfileUpdateForm
 from django.utils.translation import gettext_lazy as _
+from jewellery.models import Category
 
 User = get_user_model()
 
@@ -36,11 +37,11 @@ def register(request):
             new_user = User.objects.create_user(username=username, email=email, password=password)
             messages.success(request, _('Your registration was successful. You can log in now.'))
             return redirect('login')
-    return render(request, 'user_profile/register.html')
+    return render(request, 'user_profile/register.html', {"categories": Category.objects.all()})
 
 @login_required
 def profile(request):
-    return render(request, 'user_profile/profile.html')
+    return render(request, 'user_profile/profile.html', {"categories": Category.objects.all()})
 
 
 @login_required
@@ -60,5 +61,6 @@ def update_profile(request):
     return render(request, 'user_profile/update_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form,
+        "categories": Category.objects.all(),
     })
 
