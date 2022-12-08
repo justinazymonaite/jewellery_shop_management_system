@@ -34,7 +34,14 @@ header a {
     flex-direction: column;
     font-size: 12px;
     display: block;
+    transition: background 0.4s;
     
+}
+
+.dropdown-menu:hover {
+    display: none;
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
 }
 
 header a:hover {
@@ -89,16 +96,22 @@ main, footer {
     margin: 0 auto;
 }
 
+
 h1, h3 {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
 }
 
-h1, h2, h3, p {
+h1, h2, p {
     padding: 0.5rem 1rem;
     margin: 0.5rem 0;
     color: rgb(35, 34, 38);
+}
+
+h3 {
+    color: rgb(136, 136, 136);
+    font-size: 13px;
 }
 
 main {
@@ -122,19 +135,10 @@ footer .container {
 ul {
     list-style: none;
     padding: 0;
-}
+} 
 
 .product a {
     text-decoration: none;
-    text-transform: uppercase;
-}
-
-.body ul li a {
-    color:rgb(43, 41, 46)
-}
-
-ul li:hover {
-    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .paginator {
@@ -146,17 +150,8 @@ ul li:hover {
     padding: 0.25rem;
     margin: 0.05rem;
     text-decoration: none;
-    border: 1px solid rgb(47, 47, 61);
+    border: 1px solid rgb(83, 83, 90);
     border-radius: 0.5rem;
-}
-
-/* .paginator span {
-    background-color:  rgb(47, 47, 61);
-    color: white;
-} */
-
-.paginator a {
-    background-color:   white;
 }
 
 .search form {
@@ -165,6 +160,8 @@ ul li:hover {
 
 ul.product_list {
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
@@ -176,11 +173,17 @@ ul li.product {
 }
 
 img {
-    max-width: 100%;
+    max-width: 85%;
+    height: auto;
 }
 
-ul.product_list li.product h3 {
-    margin-top: 0;
+img:hover {
+    max-width: 90%;
+    position: relative;
+    z-index: 1;
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
+    gap: 0rem;
 }
 
 table {

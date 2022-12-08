@@ -83,7 +83,7 @@ class OrderListView(LoginRequiredMixin, ListView, CategoriesMixin):
     def get_queryset(self):
         queryset = super().get_queryset()
         if hasattr(self.request.user, 'customer'):
-            queryset = queryset.filter(customer__user=self.request.user.customer).order_by('date')
+            queryset = queryset.filter(customer=self.request.user.customer).order_by('date')
         else:
             queryset = None
         return queryset
