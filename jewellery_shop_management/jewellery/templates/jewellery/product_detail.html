@@ -4,11 +4,13 @@
 {% block content %}
     <h1>{{ object.name }}</h1>
     <h3>{{ object.price }}</h3>
+    <div></div>
         {% if object.image.url %}
             <img src="{{ object.image.url }}">
         {% else %}
              <img src="{% static 'jewellery/img/ring_icon.jpg' %}">
         {% endif %}
+    <div></div>
     <h2>{% trans "Reviews" %}</h2>
     {% if user.is_authenticated %}
         <div class='review_form'>
@@ -27,7 +29,7 @@
                         <img src="{{ review.customer.profile.photo.url }}">
                     {% endif %}
                     {{ review.customer }}<span class='float_right'>{{ review.created_at }}</span></h4>
-                <p>{{ review.content }}</p>
+                <p>{{ review.review }}</p>
             </div>
         {% endfor %}
     {% endif %}

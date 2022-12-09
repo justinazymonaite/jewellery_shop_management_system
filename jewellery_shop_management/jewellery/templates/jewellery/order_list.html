@@ -12,18 +12,18 @@
         <div class="table_grid_cell center dark">{% trans "Total amount" %}</div>
         <div class="table_grid_cell center dark">{% trans "Status" %}</div>
         <div class="table_grid_cell center dark">{% trans "Due Date" %}</div>
+        <div class="table_grid_cell center dark">{% trans "Details" %}</div>
         <div class="table_grid_cell center dark">{% trans "Actions" %}</div>
         {% for order in order_list %}
             <div class="table_grid_cell center">{{ order.date }}</div>
             <div class="table_grid_cell center">{{ order.total }}</div>
             <div class="table_grid_cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.get_status_display }}</div>
             <div class="table_grid_cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.due_date }}</div>
-            {% comment %} <div class="table_grid_cell center">
-                {% if order.status == "n" %}
-                <a class="button" href="{% url 'user_update_order' order.pk%}">{% trans "Update" %}</a>
-                <a class="button" href="{% url 'user_delete_order' order.pk%}">{% trans "Cancel" %}</a>
-                {% endif %}
-            </div> {% endcomment %}
+            <div class="table_grid_cell center"><a class="button" href="{% url 'order' order.pk %}"><span class="button-arrow">&#8594;</span>
+            </a></div>
+            <div class="table_grid_cell center"><button type="submit">{% if action %}{{ action }}{% else %}-{% endif %}</button>
+            </a></div>
+    
 
         {% endfor %}
     </div>

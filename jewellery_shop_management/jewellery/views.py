@@ -9,6 +9,8 @@ from django.db.models import Q
 from . forms import ProductReviewForm
 from django.contrib import messages
 from django.views.generic.base import ContextMixin
+from django.utils.timezone import datetime, timedelta
+
 
 def index(request):
     return render(request, 'jewellery/index.html', {"categories": Category.objects.all()})
@@ -88,8 +90,15 @@ class OrderListView(LoginRequiredMixin, ListView, CategoriesMixin):
             queryset = None
         return queryset
 
-    
-class OrderDetailView(FormMixin, DetailView, CategoriesMixin):
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     status = self.request.GET.get('status')
+    #     if status == 'fully paid':
+    #         context['action'] = _('Subscribe for restoration reminder')
+    #     return context
+
+
+class OrderDetailView(LoginRequiredMixin, DetailView, CategoriesMixin):
     model = Order
     template_name = 'jewellery/order_detail.html'
 
