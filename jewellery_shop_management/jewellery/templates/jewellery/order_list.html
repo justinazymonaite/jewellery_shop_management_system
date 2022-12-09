@@ -1,19 +1,18 @@
 {% extends 'jewellery/base.html' %}
-{% load i18n %}
+{% load static i18n %}
 {% block title %} {% trans "My Orders in" %} {{ block.super }}{% endblock title %}
 {% block content %}
-    <h1>{% trans "My Orders" %}
-        {% if user.profile.photo %}
+    <h1>{% if user.profile.photo %}
             <img src="{{ user.profile.photo.url }}">
-        {% endif %}
-    </h1>
+        {% else %}
+            <img src="{% static 'jewellery/img/defaultphoto.jpg' %}">
+        {% endif %}{% trans "My Orders" %}</h1>
     <div class="table_grid my_orders_table">
         <div class="table_grid_cell center dark">{% trans "Order date" %}</div>
         <div class="table_grid_cell center dark">{% trans "Total amount" %}</div>
         <div class="table_grid_cell center dark">{% trans "Status" %}</div>
         <div class="table_grid_cell center dark">{% trans "Due Date" %}</div>
         <div class="table_grid_cell center dark">{% trans "Details" %}</div>
-        <div class="table_grid_cell center dark">{% trans "Actions" %}</div>
         {% for order in order_list %}
             <div class="table_grid_cell center">{{ order.date }}</div>
             <div class="table_grid_cell center">{{ order.total }}</div>
@@ -21,10 +20,6 @@
             <div class="table_grid_cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.due_date }}</div>
             <div class="table_grid_cell center"><a class="button" href="{% url 'order' order.pk %}"><span class="button-arrow">&#8594;</span>
             </a></div>
-            <div class="table_grid_cell center"><button type="submit">{% if action %}{{ action }}{% else %}-{% endif %}</button>
-            </a></div>
-    
-
         {% endfor %}
     </div>
 {% endblock content %}

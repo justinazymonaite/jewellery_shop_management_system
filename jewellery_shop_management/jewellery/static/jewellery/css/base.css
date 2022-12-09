@@ -173,17 +173,13 @@ ul li.product {
 }
 
 img {
-    max-width: 85%;
+    max-width: 95%;
     height: auto;
 }
 
 img:hover {
-    max-width: 90%;
+    max-width: 100%;
     position: relative;
-    z-index: 1;
-    transition-duration: 0.3s;
-    transition-timing-function: linear;
-    gap: 0rem;
 }
 
 table {
@@ -215,18 +211,17 @@ table {
 }
 
 .my_orders_table {
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
 }
 
 .order_table {
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 2fr 3fr 1fr 1fr 1fr 1fr;
 }
 
 .table_grid_cell {
     display: inline-block;
     align-self: stretch;
     justify-self: stretch;
-    background-color: rgba(255, 255, 255, 0.2);
     padding: 0.5rem;
     border-bottom: 1px solid rgb(47, 47, 61);
 }
@@ -236,8 +231,13 @@ table {
 }
 
 .dark {
-    background-color: rgb(59, 59, 66);
-    color: white;
+    background-color:  rgb(79, 79, 95);
+    color: rgb(255, 255, 255);
+}
+
+.order-details {
+    margin-left: 8px;
+    margin-top: 3rem;
 }
 
 .overdue {
@@ -251,10 +251,12 @@ table {
 
 .alert-error {
     color: rgb(184, 35, 35);
+    font-weight: bold;
 }
 
 .alert-success {
     color:  rgb(47, 47, 61);
+    font-weight: bold;
 }
 
 .float_right {
@@ -272,7 +274,6 @@ table {
 }
 
 .review_form {
-    background-color: rgba(255, 255, 255, 0.4);
     border-bottom: 3px solid rgb(47, 47, 61);
 }
 
@@ -290,18 +291,18 @@ table {
 
 .button {
     background-color: rgb(148, 148, 158);
-    color:rgb(47, 47, 61) ;
+    color: rgb(47, 47, 61);
     border-radius: 0.25rem;
     padding: 0.25rem;
     text-decoration: none;
 }
 
 .button:hover{
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(143, 143, 143, 0.3);
 }
 
 .product_review h4 img {
-    max-height: 1.5rem;
+    max-height: 2.5rem;
     border-radius: 0.5rem;
     margin-right: 0.5rem;
     float: left;

@@ -22,14 +22,14 @@
                         <a href="{% url 'products' %}">{% trans "All Jewellery" %}</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#">{% trans "Categories" %}<span class="arrow">&#x25BC;</span>
-                        </a>
+                        <a href="#">{% trans "Categories" %}<span class="arrow">&#x25BC;</span></a>
                         <ul class="dropdown-menu">
-                          <li>{% for filter_category in categories %}
+                            <li>{% for filter_category in categories %}
                                 <li>{{ filter_category.link_filtered_products }}</li>
-                            {% endfor %}</li>
+                                {% endfor %}
+                            </li>
                         </ul>
-                      </li>
+                    </li>
                     <li>
                         <span class="spacer"></span>
                     </li>
@@ -56,15 +56,15 @@
                         <a href="{% url 'login' %}{% if not '/accounts/' in request.path %}?next={{ request.path }}{% endif %}">{% trans "Login" %}</a>
                     </li>
                 {% endif %}
-                        <span>
-                            <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                                <input name="next" type="hidden" value="{{ request.path }}">
-                                {% for lang in LANGUAGES %}
-                                    <button type="submit" name="language" value="{{ lang.0 }}" >{{ lang.0|upper|slice:2 }}</button>
-                                {% endfor %}
-                            </form>
-                        </span>
+                    <span>
+                        <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.path }}">
+                            {% for lang in LANGUAGES %}
+                                <button type="submit" name="language" value="{{ lang.0 }}">{{ lang.0|upper|slice:2 }}</button>
+                            {% endfor %}
+                        </form>
+                    </span>
                 </ul>
             {% endblock nav %}
         </div>

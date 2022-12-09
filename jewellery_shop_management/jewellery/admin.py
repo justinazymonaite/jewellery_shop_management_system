@@ -10,7 +10,7 @@ class OrderLineInline(admin.StackedInline):
 
 
 class OrderLineAdmin(admin.ModelAdmin):
-    list_display = ('unique_id','order', 'product', 'quantity', 'hand', 'finger', 'ring_size', 'display_metal_type', 'weight')
+    list_display = ('unique_id','order', 'product', 'quantity','hand', 'finger', 'ring_size', 'display_metal_type', 'weight')
     ordering = ('order', 'unique_id')
     list_filter = ('order', 'product',)
     readonly_fields = ('unique_id',)
@@ -30,7 +30,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'display_category', 'price')
+    list_display = ('name', 'jewellery_type', 'display_category', 'price')
 
 
 class PearlAdmin(admin.ModelAdmin):
@@ -47,6 +47,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Pearl)
 admin.site.register(models.MetalType)
+admin.site.register(models.JewelleryType)
 admin.site.register(models.Category)
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Customer, CustomerAdmin)

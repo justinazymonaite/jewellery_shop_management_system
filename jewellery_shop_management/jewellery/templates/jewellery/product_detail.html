@@ -27,6 +27,8 @@
             <div class='product_review'>
                 <h4>{% if review.customer.profile.photo %}
                         <img src="{{ review.customer.profile.photo.url }}">
+                    {% else %}
+                        <img src="{% static 'jewellery/img/defaultphoto.jpg' %}">
                     {% endif %}
                     {{ review.customer }}<span class='float_right'>{{ review.created_at }}</span></h4>
                 <p>{{ review.review }}</p>

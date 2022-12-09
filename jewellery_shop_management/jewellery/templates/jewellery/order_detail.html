@@ -4,7 +4,7 @@
 {% block content %}
 <h1>{% trans "Order details" %}:</h1>
 {% if object.order_lines.count > 0 %}
-<ul>
+<ul class="order-details">
 <li>{% trans "Order ID" %}: {{ object.order_lines.first.order.id }}</li>
 <li>{% trans "Total amount" %}: {{object.order_lines.first.order.total }}€</li>
 <li>{% trans "Order Date" %}: {{ object.order_lines.first.order.date }}</li>
@@ -13,18 +13,24 @@
 {% endif %}
 <div class="table_grid order_table">
     <div class="table_grid_cell center dark">{% trans "Product" %}</div>
-    <div class="table_grid_cell center dark">{% trans "Quantity" %}</div>
+    <div class="table_grid_cell center dark">{% trans "Jewellery type" %}</div>
     <div class="table_grid_cell center dark">{% trans "Price" %}</div>
     <div class="table_grid_cell center dark">{% trans "Ring size, hand, finger" %}</div>
+    <div class="table_grid_cell center dark">{% trans "Pearl" %}</div>
     <div class="table_grid_cell center dark">{% trans "Weight" %}</div>
-    <div class="table_grid_cell center dark">{% trans "Photo" %}</div>
+    <div class="table_grid_cell center dark">{% trans "Metal" %}</div>
+    <div class="table_grid_cell center dark">{% trans "Certificate" %}</div>
+    <div class="table_grid_cell center dark">{% trans "Latest restoration" %}</div>
     {% for line in object.order_lines.all %}
         <div class="table_grid_cell center">{{ line.product.name }}</div>
-        <div class="table_grid_cell center">{{ line.quantity }}</div>
+        <div class="table_grid_cell center">{{ line.product.jewellery_type }}</div>
         <div class="table_grid_cell center">{{ line.price }}</div>
-        <div class="table_grid_cell center">{{ line.ring_size }}; {{ line.hand }} {% trans "hand" %}; {{ line.finger }}</div>
+        <div class="table_grid_cell center">{% if line.ring_size %}{{ line.ring_size }} - {{ line.get_hand_display }} {% trans "hand" %}, {{ line.get_finger_display }} {% trans "finger" %}{% endif %}</div>
+        <div class="table_grid_cell center">{% if line.pearl %}{{ line.display_pearl }}{% endif %}</div>
         <div class="table_grid_cell center">{{ line.weight }}</div>
-        <div class="table_grid_cell center"><img src="{{ object.photo.url }}"></div>
+        <div class="table_grid_cell center">{{ line.display_metal_type }}</div>
+        <div class="table_grid_cell center">{{ line.certificate }}</div>
+        <div class="table_grid_cell center">{% if line.restoration %}{{ line.restoration }}{% endif %}</div>
         
         
     {% endfor %}
