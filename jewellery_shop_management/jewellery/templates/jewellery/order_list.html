@@ -16,8 +16,8 @@
         {% for order in order_list %}
             <div class="table_grid_cell center">{{ order.date }}</div>
             <div class="table_grid_cell center">{{ order.total }}</div>
-            <div class="table_grid_cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.get_status_display }}</div>
-            <div class="table_grid_cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.due_date }}</div>
+            <div class="table_grid_cell center{% if order.is_overdue and order.status != 'f' %} overdue{% endif %}">{{ order.get_status_display }}</div>
+            <div class="table_grid_cell center{% if order.is_overdue and order.status != 'f' %} overdue{% endif %}">{{ order.due_date }}</div>
             <div class="table_grid_cell center"><a class="button" href="{% url 'order' order.pk %}"><span class="button-arrow">&#8594;</span>
             </a></div>
         {% endfor %}
